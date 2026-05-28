@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Basic Security Headers to force secure connections -->
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<title>Afro Chain Crypto Hub</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0b14;--bg2:#0f1020;--bg3:#141628;--card:#161830;--card2:#1c1f3a;
+  --border:#2a2d4a;--border2:#353860;
+  --neon:#6c63ff;--neon2:#4fc3f7;--neon3:#a78bfa;
+  --text:#e8eaf6;--text2:#9ba3c7;--text3:#6b7280;
+  --green:#10b981;--red:#ef4444;--yellow:#f59e0b;--orange:#f97316;
+  --gold:#fbbf24;
+  font-family:'Segoe UI',system-ui,sans-serif;
+}
+body{background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(10,11,20,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1rem}
+.nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;gap:1rem}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--neon),var(--neon2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff}
+.logo-text{font-size:15px;font-weight:700;color:var(--text)}
+.logo-sub{font-size:10px;color:var(--neon2);letter-spacing:1px}
+.nav-links{display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto}
+.nav-link{padding:6px 10px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--text2);transition:all .2s;white-space:nowrap;border:none;background:none}
+.nav-link:hover,.nav-link.active{color:var(--neon2);background:rgba(108,99,255,0.1)}
+.nav-cta{background:linear-gradient(135deg,var(--neon),var(--neon2));color:#fff;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:none}
+
+/* MAIN */
+main{max-width:1400px;margin:0 auto;padding:0 1rem}
+
+/* PAGE SECTIONS */
+.page{display:none}
+.page.active{display:block}
+
+/* HERO */
+.hero{min-height:85vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 1rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.12}
+.hero-orb1{width:600px;height:600px;background:var(--neon);top:-200px;left:-100px}
+.hero-orb2{width:400px;height:400px;background:var(--neon2);bottom:-100px;right:-100px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,0.12);border:1px solid rgba(108,99,255,0.3);border-radius:20px;padding:6px 16px;font-size:12px;color:var(--neon3);margin-bottom:1.5rem}
+.pulse{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.hero h1{font-size:clamp(28px,5vw,62px);font-weight:800;line-height:1.1;margin-bottom:1.2rem;background:linear-gradient(135deg,#fff 30%,var(--neon3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(14px,2vw,18px);color:var(--text2);max-width:600px;line-height:1.7;margin-bottom:2.5rem}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.btn-primary{background:linear-gradient(135deg,var(--neon),var(--neon2));color:#fff;padding:12px 24px;border-radius:25px;font-weight:600;cursor:pointer;border:none;font-size:14px;transition:transform .2s}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--text);padding:12px 24px;border-radius:25px;font-weight:600;cursor:pointer;border:1px solid var(--border2);font-size:14px;transition:all .2s}
+.btn-outline:hover{border-color:var(--neon);color:var(--neon)}
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;justify-content:center;flex-wrap:wrap}
+.hero-stat .num{font-size:28px;font-weight:800;color:var(--text)}
+.hero-stat .lbl{font-size:12px;color:var(--text3)}
+
+/* TICKER */
+.ticker-wrap{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:10px 0;overflow:hidden}
+.ticker-inner{display:flex;gap:3rem;white-space:nowrap;animation:scroll 30s linear infinite}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{display:flex;align-items:center;gap:8px;font-size:13px}
+.ticker-name{color:var(--text2);font-weight:600}
+.ticker-price{color:var(--text)}
+.up{color:var(--green)}.down{color:var(--red)}
+
+/* SECTION HEADERS */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-top:3rem}
+.section-title{font-size:20px;font-weight:700;color:var(--text)}
+.section-title span{color:var(--neon3)}
+.section-sub{font-size:13px;color:var(--text3);margin-top:3px}
+.view-all{font-size:12px;color:var(--neon2);cursor:pointer;border:1px solid rgba(79,195,247,0.3);padding:5px 12px;border-radius:15px;background:none}
+.view-all:hover{background:rgba(79,195,247,0.08)}
+
+/* MARKET GRID */
+.market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:2rem}
+.coin-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.coin-card:hover{border-color:var(--border2);transform:translateY(-2px);background:var(--card2)}
+.coin-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.coin-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
+.coin-change{font-size:12px;font-weight:600;padding:3px 8px;border-radius:10px}
+.coin-change.up{background:rgba(16,185,129,0.12);color:var(--green)}
+.coin-change.down{background:rgba(239,68,68,0.12);color:var(--red)}
+.coin-name{font-size:13px;font-weight:700;color:var(--text)}
+.coin-sym{font-size:11px;color:var(--text3)}
+.coin-price{font-size:18px;font-weight:800;margin:4px 0;color:var(--text)}
+.coin-mcap{font-size:11px;color:var(--text3)}
+.mini-chart{height:40px;width:100%;margin-top:10px}
+.sparkline{stroke-width:1.5;fill:none}
+
+/* FEAR GREED */
+.fg-widget{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.fg-title{font-size:12px;color:var(--text3);margin-bottom:8px}
+.fg-score{font-size:42px;font-weight:800;margin:8px 0}
+.fg-label{font-size:14px;font-weight:600}
+.fg-bar{width:100%;height:8px;border-radius:4px;background:linear-gradient(to right,#ef4444,#f59e0b,#10b981);margin:10px 0;position:relative}
+.fg-pointer{width:12px;height:12px;background:#fff;border-radius:50%;position:absolute;top:-2px;margin-left:-6px;transition:left .5s}
+
+/* LOW SUPPLY COINS */
+.gems-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.gem-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;transition:all .2s}
+.gem-card:hover{border-color:var(--neon);transform:translateY(-2px)}
+.gem-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.gem-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+.gem-name{font-size:15px;font-weight:700}
+.gem-chain{font-size:11px;color:var(--neon2);background:rgba(79,195,247,0.1);padding:2px 8px;border-radius:8px}
+.gem-score{display:flex;align-items:center;gap:6px;margin-bottom:12px}
+.score-bar{flex:1;height:6px;border-radius:3px;background:var(--bg3)}
+.score-fill{height:100%;border-radius:3px;background:linear-gradient(to right,var(--neon),var(--neon2))}
+.score-val{font-size:12px;font-weight:700;color:var(--neon2)}
+.gem-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.gem-stat-item{background:var(--bg2);border-radius:8px;padding:8px}
+.gem-stat-lbl{font-size:10px;color:var(--text3)}
+.gem-stat-val{font-size:13px;font-weight:700;color:var(--text);margin-top:2px}
+.gem-exchanges{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.ex-badge{font-size:10px;padding:3px 7px;border-radius:6px;background:rgba(108,99,255,0.12);border:1px solid rgba(108,99,255,0.2);color:var(--neon3)}
+.gem-btns{display:flex;gap:8px}
+.btn-buy{flex:1;background:linear-gradient(135deg,var(--neon),var(--neon2));color:#fff;padding:8px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:transform .2s}
+.btn-buy:hover{transform:translateY(-1px)}
+.btn-chart{flex:1;background:transparent;color:var(--neon2);padding:8px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(79,195,247,0.3)}
+
+/* JOBS */
+.jobs-list{display:flex;flex-direction:column;gap:12px}
+.job-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;transition:all .2s;cursor:pointer}
+.job-card:hover{border-color:var(--border2);background:var(--card2)}
+.job-logo{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+.job-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.job-company{font-size:12px;color:var(--text2)}
+.job-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.job-tag{font-size:10px;padding:2px 8px;border-radius:8px}
+.tag-remote{background:rgba(16,185,129,0.1);color:var(--green)}
+.tag-crypto{background:rgba(108,99,255,0.1);color:var(--neon3)}
+.tag-type{background:rgba(79,195,247,0.1);color:var(--neon2)}
+.job-salary{text-align:right}
+.salary-amt{font-size:15px;font-weight:700;color:var(--gold)}
+.salary-crypto{font-size:11px;color:var(--neon2)}
+.btn-apply{background:linear-gradient(135deg,var(--neon),var(--neon2));color:#fff;padding:8px 18px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:none;margin-top:6px}
+
+/* NEWS */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.news-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .2s;cursor:pointer}
+.news-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.news-img{width:100%;height:140px;display:flex;align-items:center;justify-content:center;font-size:40px;background:var(--bg3)}
+.news-body{padding:14px}
+.news-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.news-source{font-size:11px;color:var(--text3)}
+.sentiment-badge{font-size:10px;padding:3px 8px;border-radius:8px;font-weight:600}
+.bullish{background:rgba(16,185,129,0.15);color:var(--green)}
+.bearish{background:rgba(239,68,68,0.15);color:var(--red)}
+.neutral{background:rgba(245,158,11,0.15);color:var(--yellow)}
+.news-title{font-size:13px;font-weight:600;line-height:1.5;margin-bottom:8px}
+.news-summary{font-size:12px;color:var(--text2);line-height:1.6}
+.news-time{font-size:11px;color:var(--text3);margin-top:8px}
+
+/* AFRICA MAP SECTION */
+.africa-section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
+.africa-insights{display:flex;flex-direction:column;gap:12px}
+.insight-card{background:var(--bg2);border-radius:10px;padding:14px;border:1px solid var(--border)}
+.insight-title{font-size:13px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.insight-text{font-size:12px;color:var(--text2);line-height:1.6}
+.insight-bar{height:4px;border-radius:2px;background:var(--bg3);margin-top:8px}
+.insight-fill{height:100%;border-radius:2px;transition:width 1s}
+
+/* AI CHAT */
+.chat-container{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:2rem;max-width:800px;margin:0 auto 2rem}
+.chat-header{background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(79,195,247,0.1));padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.ai-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--neon),var(--neon2));display:flex;align-items:center;justify-content:center;font-size:18px}
+.ai-name{font-size:15px;font-weight:700}
+.ai-status{font-size:12px;color:var(--green);display:flex;align-items:center;gap:5px}
+.messages{height:400px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.messages::-webkit-scrollbar{width:4px}
+.messages::-webkit-scrollbar-track{background:var(--bg)}
+.messages::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.msg{max-width:80%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.6}
+.msg-ai{background:var(--card2);border:1px solid var(--border);align-self:flex-start;border-radius:4px 12px 12px 12px}
+.msg-user{background:linear-gradient(135deg,var(--neon),var(--neon2));color:#fff;align-self:flex-end;border-radius:12px 12px 4px 12px}
+.typing{display:flex;gap:4px;align-items:center;padding:12px 16px;background:var(--card2);border-radius:4px 12px 12px 12px;max-width:60px}
+.typing-dot{width:6px;height:6px;background:var(--text2);border-radius:50%;animation:typing 1.2s ease-in-out infinite}
+.typing-dot:nth-child(2){animation-delay:.2s}
+.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes typing{0%,60%,100%{opacity:.4;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+.suggested-prompts{padding:12px 16px;display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--border)}
+.prompt-chip{background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:5px 12px;border-radius:15px;font-size:11px;cursor:pointer;transition:all .2s}
+.prompt-chip:hover{border-color:var(--neon);color:var(--neon)}
+.chat-input-area{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
+.chat-input{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:10px 16px;color:var(--text);font-size:13px;outline:none}
+.chat-input:focus{border-color:var(--neon)}
+.chat-send{background:linear-gradient(135deg,var(--neon),var(--neon2));color:#fff;border:none;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+
+/* LEARNING HUB */
+.learn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.learn-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;cursor:pointer;transition:all .2s;text-align:center}
+.learn-card:hover{border-color:var(--neon);transform:translateY(-2px)}
+.learn-icon{font-size:36px;margin-bottom:12px}
+.learn-title{font-size:15px;font-weight:700;margin-bottom:6px}
+.learn-desc{font-size:12px;color:var(--text2);line-height:1.6}
+.learn-level{display:inline-block;margin-top:10px;font-size:10px;padding:3px 10px;border-radius:8px;background:rgba(16,185,129,0.1);color:var(--green)}
+
+/* SCAM ALERTS */
+.scam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.scam-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;transition:all .2s}
+.scam-high{border-color:rgba(239,68,68,0.4)}
+.scam-med{border-color:rgba(245,158,11,0.4)}
+.scam-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.scam-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:8px}
+.risk-high{background:rgba(239,68,68,0.15);color:var(--red)}
+.risk-med{background:rgba(245,158,11,0.15);color:var(--yellow)}
+.scam-name{font-size:14px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.scam-desc{font-size:12px;color:var(--text2);line-height:1.6}
+.scam-flags{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.scam-flag{font-size:10px;padding:2px 8px;border-radius:6px;background:rgba(239,68,68,0.08);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+
+/* NEWSLETTER */
+.newsletter{background:linear-gradient(135deg,rgba(108,99,255,0.1),rgba(79,195,247,0.05));border:1px solid rgba(108,99,255,0.2);border-radius:16px;padding:40px;text-align:center;margin:3rem 0}
+.newsletter h2{font-size:24px;font-weight:800;margin-bottom:10px}
+.newsletter p{color:var(--text2);margin-bottom:2rem;font-size:14px}
+.nl-form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:500px;margin:0 auto}
+.nl-input{flex:1;min-width:200px;background:var(--bg2);border:1px solid var(--border);border-radius:25px;padding:12px 20px;color:var(--text);font-size:13px;outline:none}
+.nl-input:focus{border-color:var(--neon)}
+.nl-btn{background:linear-gradient(135deg,var(--neon),var(--neon2));color:#fff;padding:12px 24px;border-radius:25px;font-weight:600;cursor:pointer;border:none;font-size:13px}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 1rem 20px;margin-top:4rem}
+.footer-inner{max-width:1400px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2rem;margin-bottom:2rem}
+.footer-brand .logo-text{font-size:18px}
+.footer-brand p{font-size:12px;color:var(--text3);margin-top:8px;line-height:1.7}
+.footer-col h4{font-size:13px;font-weight:700;margin-bottom:12px;color:var(--text)}
+.footer-col a{display:block;font-size:12px;color:var(--text3);margin-bottom:8px;cursor:pointer;text-decoration:none}
+.footer-col a:hover{color:var(--neon2)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.footer-copy{font-size:11px;color:var(--text3)}
+
+/* LOADING SPINNER */
+.loading{display:flex;align-items:center;gap:8px;color:var(--text3);font-size:13px;padding:20px}
+.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--neon);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* MARKET PAGE FILTERS */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.filter-btn{background:var(--card);border:1px solid var(--border);color:var(--text2);padding:7px 14px;border-radius:20px;font-size:12px;cursor:pointer}
+.filter-btn:hover,.filter-btn.active{background:rgba(108,99,255,0.15);border-color:var(--neon);color:var(--neon)}
+.search-bar{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;color:var(--text);font-size:13px;outline:none;width:100%;max-width:320px}
+.search-bar:focus{border-color:var(--neon)}
+
+/* TABLE */
+.market-table{width:100%;border-collapse:collapse;font-size:13px}
+.market-table th{text-align:left;padding:10px 14px;color:var(--text3);font-size:11px;border-bottom:1px solid var(--border)}
+.market-table td{padding:12px 14px;border-bottom:1px solid rgba(42,45,74,0.5)}
+.market-table tr:hover td{background:var(--card)}
+.rank{color:var(--text3);font-size:11px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .africa-section{grid-template-columns:1fr}
+  .job-card{grid-template-columns:auto 1fr;gap:10px}
+  .job-salary{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo" onclick="showPage('home')">
+      <div class="logo-icon">A⛓</div>
+      <div>
+        <div class="logo-text">AFRO CHAIN</div>
+        <div class="logo-sub">CRYPTO HUB</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link active" onclick="showPage('home')">Home</button>
+      <button class="nav-link" onclick="showPage('markets')">Markets</button>
+      <button class="nav-link" onclick="showPage('newcoins')">New Coins</button>
+      <button class="nav-link" onclick="showPage('jobs')">Crypto Jobs</button>
+      <button class="nav-link" onclick="showPage('news')">News</button>
+      <button class="nav-link" onclick="showPage('learn')">Learn</button>
+      <button class="nav-link" onclick="showPage('ai')">AI Assistant</button>
+      <button class="nav-link" onclick="showPage('scam')">Scam Alerts</button>
+    </div>
+    <button class="nav-cta" onclick="showPage('markets')">🚀 Live Markets</button>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="tickerInner">
+    <span class="ticker-item"><span class="ticker-name">BTC</span><span class="ticker-price" id="tick-btc">$67,420</span><span class="up">+2.4%</span></span>
+    <span class="ticker-item"><span class="ticker-name">ETH</span><span class="ticker-price" id="tick-eth">$3,812</span><span class="up">+1.8%</span></span>
+    <span class="ticker-item"><span class="ticker-name">SOL</span><span class="ticker-price" id="tick-sol">$168</span><span class="up">+4.2%</span></span>
+    <span class="ticker-item"><span class="ticker-name">XRP</span><span class="ticker-price" id="tick-xrp">$0.62</span><span class="down">-0.9%</span></span>
+    <span class="ticker-item"><span class="ticker-name">ADA</span><span class="ticker-price" id="tick-ada">$0.48</span><span class="up">+1.1%</span></span>
+    <span class="ticker-item"><span class="ticker-name">BNB</span><span class="ticker-price" id="tick-bnb">$412</span><span class="up">+0.7%</span></span>
+    <span class="ticker-item"><span class="ticker-name">AVAX</span><span class="ticker-price">$38.5</span><span class="up">+3.1%</span></span>
+    <span class="ticker-item"><span class="ticker-name">DOT</span><span class="ticker-price">$7.82</span><span class="down">-1.2%</span></span>
+    <span class="ticker-item"><span class="ticker-name">MATIC</span><span class="ticker-price">$0.89</span><span class="up">+2.8%</span></span>
+    <span class="ticker-item"><span class="ticker-name">LINK</span><span class="ticker-price">$14.60</span><span class="up">+1.5%</span></span>
+  </div>
+</div>
+
+<main>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb1"></div>
+      <div class="hero-orb hero-orb2"></div>
+    </div>
+    <div class="hero-badge"><div class="pulse"></div>LIVE — African Crypto Intelligence Platform</div>
+    <h1>Africa's Real-Time<br>AI Crypto Intelligence Hub</h1>
+    <p>Discover new crypto opportunities, crypto-paying jobs, AI market analysis, and low-supply digital assets before the crowd.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showPage('markets')">🔥 Explore Markets</button>
+      <button class="btn-outline" onclick="showPage('jobs')">💼 Find Crypto Jobs</button>
+      <button class="btn-outline" onclick="showPage('newcoins')">💎 Discover New Coins</button>
+      <button class="btn-outline" onclick="showPage('learn')">📚 Learn Crypto</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num" id="mktcap-stat">$2.4T</div><div class="lbl">Total Market Cap</div></div>
+      <div class="hero-stat"><div class="num">1,200+</div><div class="lbl">Coins Tracked</div></div>
+      <div class="hero-stat"><div class="num">340+</div><div class="lbl">Crypto Jobs</div></div>
+      <div class="hero-stat"><div class="num">52</div><div class="lbl">African Markets</div></div>
+    </div>
+  </div>
+
+  <!-- LIVE MARKET DASHBOARD -->
+  <div class="section-header">
+    <div>
+      <div class="section-title">Live <span>Market Dashboard</span></div>
+      <div class="section-sub">Auto-updating every 30 seconds</div>
+    </div>
+    <button class="view-all" onclick="showPage('markets')">View All →</button>
+  </div>
+  <div class="market-grid" id="homeMarketGrid"></div>
+
+  <!-- FEAR & GREED -->
+  <div style="display:grid;grid-template-columns:160px 1fr;gap:14px;margin-bottom:2rem">
+    <div class="fg-widget">
+      <div class="fg-title">FEAR & GREED</div>
+      <div class="fg-score" id="fgScore" style="color:var(--gold)">72</div>
+      <div class="fg-bar"><div class="fg-pointer" id="fgPointer" style="left:72%"></div></div>
+      <div class="fg-label" style="color:var(--gold)">GREED</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:var(--text)">🤖 AI Market Insight</div>
+      <div id="aiInsight" style="font-size:13px;color:var(--text2);line-height:1.7">Bitcoin is showing strong bullish momentum driven by ETF inflows and institutional demand from African markets. Solana's DeFi ecosystem is expanding rapidly with new African payment integrations. The Fear & Greed index at 72 suggests cautious optimism — key resistance levels hold for BTC. Nigeria and Kenya are seeing record crypto adoption rates, making this a pivotal moment for African crypto investors.</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:8px">Updated 2 minutes ago · AI Analysis</div>
+    </div>
+  </div>
+
+  <!-- AFRICA INSIGHTS -->
+  <div class="section-header">
+    <div>
+      <div class="section-title">🌍 African <span>Crypto Insights</span></div>
+      <div class="section-sub">Real-time adoption across Africa</div>
+    </div>
+  </div>
+  <div class="africa-section">
+    <svg viewBox="0 0 300 340" style="max-width:280px;margin:0 auto;display:block">
+      <defs>
+        <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#6c63ff" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#6c63ff" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <!-- Africa shape simplified -->
+      <path d="M80,20 L200,15 L230,40 L250,80 L255,130 L240,180 L220,230 L200,270 L175,310 L150,325 L130,310 L110,270 L85,230 L60,190 L50,150 L45,110 L55,70 Z" fill="#1c1f3a" stroke="#353860" stroke-width="1.5"/>
+      <!-- Country hotspots -->
+      <circle cx="165" cy="145" r="18" fill="url(#glow1)" opacity="0.6"/>
+      <circle cx="165" cy="145" r="8" fill="#6c63ff"/>
+      <text x="165" y="174" text-anchor="middle" fill="#9ba3c7" font-size="9">Nigeria</text>
+      <circle cx="185" cy="195" r="14" fill="url(#glow1)" opacity="0.5"/>
+      <circle cx="185" cy="195" r="6" fill="#4fc3f7"/>
+      <text x="185" y="215" text-anchor="middle" fill="#9ba3c7" font-size="9">Kenya</text>
+      <circle cx="200" cy="235" r="10" fill="url(#glow1)" opacity="0.4"/>
+      <circle cx="200" cy="235" r="5" fill="#a78bfa"/>
+      <text x="200" y="252" text-anchor="middle" fill="#9ba3c7" font-size="9">Tanzania</text>
+      <circle cx="130" cy="80" r="10" fill="url(#glow1)" opacity="0.3"/>
+      <circle cx="130" cy="80" r="5" fill="#10b981"/>
+      <text x="130" y="68" text-anchor="middle" fill="#9ba3c7" font-size="9">Ghana</text>
+      <circle cx="175" cy="265" r="12" fill="url(#glow1)" opacity="0.4"/>
+      <circle cx="175" cy="265" r="6" fill="#f59e0b"/>
+      <text x="175" y="284" text-anchor="middle" fill="#9ba3c7" font-size="9">South Africa</text>
+      <text x="150" y="14" text-anchor="middle" fill="#6c63ff" font-size="10" font-weight="700">CRYPTO ACTIVITY</text>
+    </svg>
+    <div class="africa-insights">
+      <div class="insight-card">
+        <div class="insight-title">🇳🇬 Nigeria — Blockchain Capital</div>
+        <div class="insight-text">Nigeria leads Africa in crypto adoption with 35M+ users. P2P Bitcoin trading volume hits $800M/month despite regulatory challenges.</div>
+        <div class="insight-bar"><div class="insight-fill" style="width:92%;background:linear-gradient(to right,#6c63ff,#4fc3f7)"></div></div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">🇰🇪 Kenya — M-Pesa & Crypto</div>
+        <div class="insight-text">Kenya's M-Pesa integration with crypto wallets is revolutionizing remittances. BTC/KES premium at 4.2% above global rates.</div>
+        <div class="insight-bar"><div class="insight-fill" style="width:78%;background:linear-gradient(to right,#4fc3f7,#a78bfa)"></div></div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">🇿🇦 South Africa — Institutional Growth</div>
+        <div class="insight-text">JSE-listed firms entering DeFi. Crypto regulations framework expected to bring $2B institutional inflows in 2025.</div>
+        <div class="insight-bar"><div class="insight-fill" style="width:65%;background:linear-gradient(to right,#f59e0b,#10b981)"></div></div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">🇬🇭 Ghana — Fintech Innovation</div>
+        <div class="insight-text">Ghana's central bank exploring CBDC alongside private crypto exchanges. Web3 startup ecosystem growing 180% YoY.</div>
+        <div class="insight-bar"><div class="insight-fill" style="width:55%;background:linear-gradient(to right,#10b981,#6c63ff)"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOW SUPPLY COINS PREVIEW -->
+  <div class="section-header">
+    <div>
+      <div class="section-title">💎 Hidden Gem Coins <span>Under 500M Supply</span></div>
+      <div class="section-sub">AI-curated low-supply opportunities</div>
+    </div>
+    <button class="view-all" onclick="showPage('newcoins')">View All →</button>
+  </div>
+  <div class="gems-grid" id="homeGemsGrid"></div>
+
+  <!-- NEWSLETTER -->
+  <div class="newsletter">
+    <h2>Stay Ahead of Africa's 🌍<br>Crypto Revolution</h2>
+    <p>Get AI-powered insights, new coin alerts, job listings, and scam warnings delivered to your inbox.</p>
+    <div class="nl-form">
+      <input class="nl-input" placeholder="Enter your email address..." type="email" id="nlEmail">
+      <button class="nl-btn" onclick="subscribeNL()">Subscribe Free</button>
+    </div>
+    <div id="nlMsg" style="margin-top:12px;font-size:13px;color:var(--green)"></div>
+  </div>
+
+</div>
+
+<!-- MARKETS PAGE -->
+<div class="page" id="page-markets">
+  <div class="section-header">
+    <div>
+      <div class="section-title">📊 Live <span>Crypto Markets</span></div>
+      <div class="section-sub" id="marketsLastUpdate">Fetching live data...</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap">
+    <input class="search-bar" placeholder="🔍  Search coins..." oninput="filterMarkets(this.value)" id="mktSearch">
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterCat('all',this)">All</button>
+      <button class="filter-btn" onclick="filterCat('top10',this)">Top 10</button>
+      <button class="filter-btn" onclick="filterCat('gainers',this)">🔥 Gainers</button>
+      <button class="filter-btn" onclick="filterCat('losers',this)">📉 Losers</button>
+      <button class="filter-btn" onclick="filterCat('defi',this)">DeFi</button>
+    </div>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:3rem">
+    <table class="market-table">
+      <thead>
+        <tr>
+          <th>#</th><th>Coin</th><th>Price</th><th>24h %</th><th>7d %</th><th>Market Cap</th><th>Volume 24h</th><th>Trend</th>
+        </tr>
+      </thead>
+      <tbody id="marketTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- NEW COINS PAGE -->
+<div class="page" id="page-newcoins">
+  <div class="section-header">
+    <div>
+      <div class="section-title">💎 Hidden Gems — <span>Under 500M Supply</span></div>
+      <div class="section-sub">AI confidence scores updated in real time</div>
+    </div>
+  </div>
+  <div class="gems-grid" id="fullGemsGrid"></div>
+  <div style="height:2rem"></div>
+</div>
+
+<!-- JOBS PAGE -->
+<div class="page" id="page-jobs">
+  <div class="section-header">
+    <div>
+      <div class="section-title">💼 Crypto <span>Jobs Board</span></div>
+      <div class="section-sub">Remote jobs paying in cryptocurrency</div>
+    </div>
+  </div>
+  <div class="filters" style="margin-bottom:1.5rem">
+    <button class="filter-btn active">All Jobs</button>
+    <button class="filter-btn">Dev</button>
+    <button class="filter-btn">Marketing</button>
+    <button class="filter-btn">Community</button>
+    <button class="filter-btn">Design</button>
+    <button class="filter-btn">AI/ML</button>
+  </div>
+  <div class="jobs-list" id="jobsList"></div>
+  <div style="height:2rem"></div>
+</div>
+
+<!-- NEWS PAGE -->
+<div class="page" id="page-news">
+  <div class="section-header">
+    <div>
+      <div class="section-title">📰 AI <span>Crypto News Feed</span></div>
+      <div class="section-sub">AI-summarized with sentiment analysis</div>
+    </div>
+  </div>
+  <div class="news-grid" id="newsGrid"></div>
+  <div style="height:2rem"></div>
+</div>
+
+<!-- LEARN PAGE -->
+<div class="page" id="page-learn">
+  <div class="section-header">
+    <div>
+      <div class="section-title">📚 <span>Learning Hub</span></div>
+      <div class="section-sub">Master crypto from zero to hero</div>
+    </div>
+  </div>
+  <div class="learn-grid" id="learnGrid"></div>
+
+  <div class="section-header">
+    <div>
+      <div class="section-title" style="padding-top:1rem">🎓 <span>Quick Guides</span></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:3rem" id="quickGuides"></div>
+</div>
+
+<!-- AI ASSISTANT PAGE -->
+<div class="page" id="page-ai">
+  <div class="section-header">
+    <div>
+      <div class="section-title">🤖 AI <span>Crypto Assistant</span></div>
+      <div class="section-sub">Your personal African crypto advisor</div>
+    </div>
+  </div>
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="ai-avatar">🤖</div>
+      <div>
+        <div class="ai-name">AfroCoin AI</div>
+        <div class="ai-status"><div class="pulse"></div>Online — Secure Local Mode</div>
+      </div>
+    </div>
+    <div class="messages" id="chatMessages">
+      <div class="msg msg-ai">👋 Hi! I'm AfroCoin AI — your personal crypto advisor for African markets. I can help you understand crypto, find opportunities, analyze coins, detect scams, and navigate the African crypto landscape. What would you like to know?</div>
+    </div>
+    <div class="suggested-prompts">
+      <button class="prompt-chip" onclick="sendPromptAI('What is Bitcoin and how does it work?')">What is Bitcoin?</button>
+      <button class="prompt-chip" onclick="sendPromptAI('Best low-supply coins for African investors?')">Low supply gems?</button>
+      <button class="prompt-chip" onclick="sendPromptAI('How do I buy crypto in Nigeria?')">Buy crypto in Nigeria</button>
+      <button class="prompt-chip" onclick="sendPromptAI('How to detect a rug pull scam?')">Detect scams</button>
+      <button class="prompt-chip" onclick="sendPromptAI('What is the best wallet for beginners?')">Best wallets</button>
+      <button class="prompt-chip" onclick="sendPromptAI('Explain DeFi in simple terms')">What is DeFi?</button>
+    </div>
+    <div class="chat-input-area">
+      <input class="chat-input" id="chatInput" placeholder="Ask me anything about crypto..." onkeydown="if(event.key==='Enter')sendChatMessage()">
+      <button class="chat-send" onclick="sendChatMessage()">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCAM ALERTS PAGE -->
+<div class="page" id="page-scam">
+  <div class="section-header">
+    <div>
+      <div class="section-title">🚨 Scam <span>Alert Center</span></div>
+      <div class="section-sub">AI-powered scam detection for Africa</div>
+    </div>
+  </div>
+  <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:16px;margin-bottom:2rem;display:flex;align-items:center;gap:12px">
+    <span style="font-size:24px">⚠️</span>
+    <div>
+      <div style="font-size:14px;font-weight:700;color:var(--red)">ACTIVE ALERT: 3 high-risk rug pulls detected in the last 24 hours</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:3px">Always verify token contracts, liquidity locks, and team identity before investing.</div>
+    </div>
+  </div>
+  <div class="scam-grid" id="scamGrid"></div>
+  <div style="height:2rem"></div>
+</div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">⛓ AFRO CHAIN</div>
+        <p>Africa's leading AI-powered cryptocurrency intelligence platform. Built for emerging markets, designed for the future.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a onclick="showPage('markets')">Live Markets</a>
+        <a onclick="showPage('newcoins')">New Coins</a>
+        <a onclick="showPage('jobs')">Crypto Jobs</a>
+        <a onclick="showPage('news')">News</a>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <a onclick="showPage('learn')">Learning Hub</a>
+        <a onclick="showPage('ai')">AI Assistant</a>
+        <a onclick="showPage('scam')">Scam Alerts</a>
+      </div>
+      <div class="footer-col">
+        <h4>Africa</h4>
+        <a>Nigeria Hub</a>
+        <a>Kenya Hub</a>
+        <a>Ghana Hub</a>
+        <a>SA Hub</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a>About</a>
+        <a>Contact</a>
+        <a>Privacy</a>
+        <a>Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Afro Chain Crypto Hub · Built for Africa's Crypto Revolution</div>
+      <div style="display:flex;gap:12px">
+        <span style="font-size:20px;cursor:pointer">🐦</span>
+        <span style="font-size:20px;cursor:pointer">📱</span>
+        <span style="font-size:20px;cursor:pointer">💬</span>
+        <span style="font-size:20px;cursor:pointer">📺</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const COINS_DATA = [
+  {id:'bitcoin',sym:'BTC',name:'Bitcoin',icon:'₿',color:'#f7931a',price:67420,change24:2.4,change7:8.2,mcap:1320000000000,vol:38000000000,rank:1,category:'top10'},
+  {id:'ethereum',sym:'ETH',name:'Ethereum',icon:'Ξ',color:'#627eea',price:3812,change24:1.8,change7:5.6,mcap:457000000000,vol:18000000000,rank:2,category:'top10'},
+  {id:'solana',sym:'SOL',name:'Solana',icon:'◎',color:'#9945ff',price:168,change24:4.2,change7:14.8,mcap:74000000000,vol:420000000,rank:5,category:'top10'},
+  {id:'xrp',sym:'XRP',name:'XRP',icon:'✕',color:'#00aae4',price:0.62,change24:-0.9,change7:2.1,mcap:34000000000,vol:1800000000,rank:6,category:'top10'},
+  {id:'cardano',sym:'ADA',name:'Cardano',icon:'♠',color:'#0033ad',price:0.48,change24:1.1,change7:3.4,mcap:17000000000,vol:520000000,rank:9,category:'top10'},
+  {id:'bnb',sym:'BNB',name:'BNB',icon:'B',color:'#f0b90b',price:412,change24:0.7,change7:4.1,mcap:60000000000,vol:1900000000,rank:4,category:'top10'},
+  {id:'avax',sym:'AVAX',name:'Avalanche',icon:'A',color:'#e84142',price:38.5,change24:3.1,change7:12.3,mcap:15800000000,vol:720000000,rank:12,category:'defi'},
+  {id:'dot',sym:'DOT',name:'Polkadot',icon:'●',color:'#e6007a',price:7.82,change24:-1.2,change7:-3.8,mcap:10200000000,vol:380000000,rank:14,category:''},
+  {id:'matic',sym:'MATIC',name:'Polygon',icon:'⬡',color:'#8247e5',price:0.89,change24:2.8,change7:9.4,mcap:8300000000,vol:620000000,rank:16,category:'defi'},
+  {id:'link',sym:'LINK',name:'Chainlink',icon:'🔗',color:'#375bd2',price:14.60,change24:1.5,change7:6.2,mcap:8600000000,vol:480000000,rank:15,category:'defi'},
+  {id:'uni',sym:'UNI',name:'Uniswap',icon:'🦄',color:'#ff007a',price:9.42,change24:-2.1,change7:-1.4,mcap:7100000000,vol:290000000,rank:18,category:'defi'},
+  {id:'atom',sym:'ATOM',name:'Cosmos',icon:'⚛',color:'#2e3148',price:8.34,change24:0.4,change7:2.8,mcap:3200000000,vol:180000000,rank:22,category:''},
+];
+
+const GEMS_DATA = [
+  {sym:'ALPH',name:'Alephium',icon:'α',color:'#ff8c00',supply:'110M',price:'$2.84',mcap:'$312M',chain:'Alephium',score:87,exchanges:['KuCoin','Gate.io']},
+  {sym:'RIO',name:'Realio Network',icon:'R',color:'#00d4aa',supply:'75M',price:'$1.22',mcap:'$92M',chain:'Ethereum',score:74,exchanges:['KuCoin','Uniswap']},
+  {sym:'CANTO',name:'Canto',icon:'C',color:'#6fff7e',supply:'450M',price:'$0.084',mcap:'$38M',chain:'Canto',score:68,exchanges:['OKX','Gate.io']},
+  {sym:'PENDLE',name:'Pendle Finance',icon:'P',color:'#3b82f6',supply:'260M',price:'$5.12',mcap:'$1.3B',chain:'Ethereum',score:92,exchanges:['Binance','Bybit','OKX']},
+  {sym:'ARKM',name:'Arkham',icon:'⚡',color:'#f97316',supply:'150M',price:'$1.84',mcap:'$276M',chain:'Ethereum',score:79,exchanges:['Binance','Bybit']},
+  {sym:'ONDO',name:'Ondo Finance',icon:'Ω',color:'#818cf8',supply:'490M',price:'$1.10',mcap:'$539M',chain:'Ethereum',score:83,exchanges:['Coinbase','OKX']},
+];
+
+const JOBS_DATA = [
+  {title:'Senior Solidity Developer',company:'ChainLink Labs',logo:'🔗',logoColor:'#375bd2',salary:'$120K–$180K',crypto:'+ 5K LINK/yr',type:'Blockchain Dev',remote:true,loc:'Remote — Africa welcome'},
+  {title:'Web3 Community Manager',company:'Binance Africa',logo:'B',logoColor:'#f0b90b',salary:'$40K–$65K',crypto:'+ BNB bonus',type:'Community',remote:true,loc:'Remote — Nigeria/Kenya'},
+  {title:'DeFi Product Manager',company:'Uniswap Labs',logo:'🦄',logoColor:'#ff007a',salary:'$90K–$140K',crypto:'+ UNI tokens',type:'Product',remote:true,loc:'Remote — Global'},
+  {title:'AI/ML Engineer — Crypto',company:'CoinGecko',logo:'🦎',logoColor:'#10b981',salary:'$80K–$120K',crypto:'+ Equity',type:'AI/ML',remote:true,loc:'Remote — Africa TZ'},
+  {title:'Blockchain Technical Writer',company:'ConsenSys',logo:'M',logoColor:'#6c63ff',salary:'$50K–$70K',crypto:'+ ETH bonus',type:'Content',remote:true,loc:'Remote — Global'},
+  {title:'React Native Developer — DeFi',company:'Gnosis',logo:'G',logoColor:'#00aae4',salary:'$70K–$110K',crypto:'+ GNO tokens',type:'Frontend',remote:true,loc:'Remote — Africa welcome'},
+  {title:'Crypto Growth Marketer',company:'OKX Africa',logo:'O',logoColor:'#f59e0b',salary:'$55K–$80K',crypto:'+ OKB bonus',type:'Marketing',remote:true,loc:'Remote — Nairobi'},
+  {title:'Smart Contract Auditor',company:'Trail of Bits',logo:'🛡',logoColor:'#a78bfa',salary:'$100K–$160K',crypto:'+ Token rewards',type:'Security',remote:true,loc:'Remote — Global'},
+];
+
+const NEWS_DATA = [
+  {emoji:'₿',title:'Bitcoin breaks $68K as institutional demand surges across Africa',source:'CoinDesk',sentiment:'bullish',summary:'Major African pension funds and investment firms are leading a new wave of institutional Bitcoin adoption, pushing prices to monthly highs.',time:'2 hours ago'},
+  {emoji:'🌍',title:'Nigeria SEC grants approval to 12 new crypto exchanges',source:'TechCabal',sentiment:'bullish',summary:'The Nigerian Securities and Exchange Commission has fast-tracked approvals for crypto exchanges serving the African market, signaling regulatory clarity.',time:'4 hours ago'},
+  {emoji:'⚡',title:'Solana processes record 65,000 TPS as African DeFi apps launch',source:'The Block',sentiment:'bullish',summary:'Solana\'s network hit new throughput records as several African-focused DeFi applications went live, bringing blockchain finance to unbanked populations.',time:'6 hours ago'},
+  {emoji:'🚨',title:'Crypto scam warning: Fake "AfriCoin" airdrop targets Kenyan users',source:'Afro Chain Alert',sentiment:'bearish',summary:'A sophisticated phishing campaign targeting Kenyan and Ugandan crypto users is circulating a fake token called "AfriCoin" — never connect your wallet to unknown sites.',time:'8 hours ago'},
+  {emoji:'📊',title:'Ethereum ETF sees $200M inflows in first week of Africa trading',source:'Bloomberg Crypto',sentiment:'bullish',summary:'The newly launched Ethereum spot ETF available through South African exchanges recorded $200M in first-week inflows, surpassing analyst expectations.',time:'10 hours ago'},
+  {emoji:'🏦',title:'Kenya\'s Central Bank issues framework for crypto asset regulation',source:'Reuters Africa',sentiment:'neutral',summary:'CBK released a comprehensive framework for regulating digital assets in Kenya, with provisions for licensing exchanges and protecting retail investors.',time:'12 hours ago'},
+];
+
+const LEARN_DATA = [
+  {icon:'₿',title:'What is Bitcoin?',desc:'Understand the world\'s first cryptocurrency, how it works, and why it matters for Africa.',level:'Beginner'},
+  {icon:'🔐',title:'How Wallets Work',desc:'Learn about hot wallets, cold wallets, seed phrases, and how to keep your crypto safe.',level:'Beginner'},
+  {icon:'💱',title:'How to Buy Crypto',desc:'Step-by-step guide to buying Bitcoin and other cryptocurrencies from Africa.',level:'Beginner'},
+  {icon:'🛡',title:'Avoid Crypto Scams',desc:'Identify rug pulls, phishing attacks, fake projects, and protect your assets.',level:'Beginner'},
+  {icon:'📈',title:'How Trading Works',desc:'Understand spot trading, leverage, orderbooks, and basic chart analysis.',level:'Intermediate'},
+  {icon:'🌊',title:'What is DeFi?',desc:'Decentralized finance explained — lending, yield farming, and liquidity pools.',level:'Intermediate'},
+  {icon:'🎨',title:'NFTs Explained',desc:'What are NFTs, how to create and sell them, and the African digital art opportunity.',level:'Beginner'},
+  {icon:'⛓',title:'Blockchain Technology',desc:'Deep dive into how blockchain consensus, nodes, and smart contracts work.',level:'Advanced'},
+];
+
+const SCAM_DATA = [
+  {name:'AFRICOIN Token',risk:'HIGH',contract:'0x4f2e...dead',flags:['No liquidity lock','Anonymous team','Copied whitepaper','Fake partnerships'],desc:'Fake token claiming to be backed by the African Union. Contract shows 99% supply held by deployer wallet. Classic rug pull setup — avoid completely.'},
+  {name:'"SafeMoon 3.0" Variant',risk:'HIGH',contract:'BSC: 0x8a3b...f00d',flags:['Honeypot code detected','No sell function','Influencer paid promotion','Tax >20%'],desc:'A new variant of the SafeMoon honeypot scheme targeting African investors via Telegram groups. Smart contract prevents selling. Do not buy.'},
+  {name:'CryptoPesa Exchange',risk:'HIGH',contract:'Website only',flags:['No regulation license','Fake team photos','Withdrawal delays reported','Social media bot followers'],desc:'Unregulated exchange claiming to serve East Africa. Multiple withdrawal complaints. Likely exit scam. Use only licensed exchanges like Binance or OKX.'},
+  {name:'AfriNFT Airdrop Phishing',risk:'MED',contract:'N/A — phishing site',flags:['Wallet drain signature request','Fake airdrop claim','Impersonates Binance'],desc:'Phishing site asking users to "claim" a free AfriNFT airdrop. Signing the transaction will drain your entire wallet. Never sign unknown transactions.'},
+  {name:'GoldBit Investment',risk:'MED',contract:'N/A — Ponzi scheme',flags:['Guaranteed returns promised','MLM referral structure','No blockchain transparency'],desc:'Investment platform promising 30% monthly returns. Classic Ponzi structure — uses new investor funds to pay existing ones. Will collapse.'},
+  {name:'Fake Ledger Nano Africa',risk:'MED',contract:'Physical product',flags:['Sold via WhatsApp','Pre-seeded device','Unofficial reseller'],desc:'Counterfeit Ledger hardware wallets sold through WhatsApp and local markets in Nigeria and Ghana. Devices come pre-configured with thief\'s seed phrase. Buy only from ledger.com.'},
+];
+
+// ============================================================
+// NAV
+// ============================================================
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const targetPage = document.getElementById('page-'+id);
+  if(targetPage) targetPage.classList.add('active');
+  
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  const map={home:0,markets:1,newcoins:2,jobs:3,news:4,learn:5,ai:6,scam:7};
+  const links=document.querySelectorAll('.nav-link');
+  if(map[id]!==undefined && links[map[id]]) links[map[id]].classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='markets') renderMarketTable(COINS_DATA);
+  if(id==='newcoins') renderGemsGrid('fullGemsGrid',GEMS_DATA);
+  if(id==='jobs') renderJobs();
+  if(id==='news') renderNews();
+  if(id==='learn') renderLearn();
+  if(id==='scam') renderScams();
+}
+
+// ============================================================
+// SPARKLINE
+// ============================================================
+function sparkline(data,color,up){
+  const w=100,h=40;
+  const min=Math.min(...data),max=Math.max(...data);
+  const pts=data.map((v,i)=>{
+    const x=(i/(data.length-1))*w;
+    const y=h-((v-min)/(max-min+0.001))*h;
+    return `${x},${y}`;
+  }).join(' ');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" class="mini-chart">
+    <polyline points="${pts}" class="sparkline" stroke="${up?'#10b981':'#ef4444'}"/>
+  </svg>`;
+}
+
+function randWalk(base,n){
+  const d=[base];
+  for(let i=1;i<n;i++) d.push(d[i-1]*(1+(Math.random()-0.48)*0.04));
+  return d;
+}
+
+// ============================================================
+// HOME MARKET GRID
+// ============================================================
+function renderHomeMarket(){
+  const grid=document.getElementById('homeMarketGrid');
+  if(!grid) return;
+  const coins=COINS_DATA.slice(0,6);
+  grid.innerHTML=coins.map(c=>{
+    const up=c.change24>=0;
+    const spark=randWalk(c.price,20);
+    return `<div class="coin-card">
+      <div class="coin-card-top">
+        <div class="coin-icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
+        <span class="coin-change ${up?'up':'down'}">${up?'+':''}${c.change24.toFixed(1)}%</span>
+      </div>
+      <div class="coin-name">${c.name}</div>
+      <div class="coin-sym">${c.sym}</div>
+      <div class="coin-price">${formatPrice(c.price)}</div>
+      <div class="coin-mcap">MCap: ${formatLarge(c.mcap)}</div>
+      ${sparkline(spark,c.color,up)}
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// MARKET TABLE
+// ============================================================
+let _allCoins=[...COINS_DATA];
+function renderMarketTable(data){
+  const tbody=document.getElementById('marketTableBody');
+  if(!tbody)return;
+  document.getElementById('marketsLastUpdate').textContent='Updated: '+new Date().toLocaleTimeString();
+  tbody.innerHTML=data.map(c=>{
+    const up=c.change24>=0;
+    const u7=c.change7>=0;
+    const spark=randWalk(c.price,12);
+    return `<tr>
+      <td class="rank">${c.rank}</td>
+      <td><div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:${c.color}22;color:${c.color};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">${c.icon}</div>
+        <div><div style="font-weight:700;font-size:13px">${c.name}</div><div style="font-size:11px;color:var(--text3)">${c.sym}</div></div>
+      </div></td>
+      <td style="font-weight:700">${formatPrice(c.price)}</td>
+      <td class="${up?'up':'down'}" style="font-weight:600">${up?'+':''}${c.change24.toFixed(2)}%</td>
+      <td class="${u7?'up':'down'}">${u7?'+':''}${c.change7.toFixed(2)}%</td>
+      <td>${formatLarge(c.mcap)}</td>
+      <td style="color:var(--text2)">${formatLarge(c.vol)}</td>
+      <td>${sparkline(spark,c.color,up)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterMarkets(q){
+  const filtered=COINS_DATA.filter(c=>c.name.toLowerCase().includes(q.toLowerCase())||c.sym.toLowerCase().includes(q.toLowerCase()));
+  renderMarketTable(filtered);
+}
+
+function filterCat(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  let data=COINS_DATA;
+  if(cat==='top10') data=COINS_DATA.filter(c=>c.rank<=10);
+  else if(cat==='gainers') data=[...COINS_DATA].sort((a,b)=>b.change24-a.change24).slice(0,8);
+  else if(cat==='losers') data=[...COINS_DATA].sort((a,b)=>a.change24-b.change24).slice(0,8);
+  else if(cat==='defi') data=COINS_DATA.filter(c=>c.category==='defi');
+  renderMarketTable(data);
+}
+
+// ============================================================
+// GEMS
+// ============================================================
+function renderGemsGrid(id,data){
+  const grid=document.getElementById(id);
+  if(!grid)return;
+  grid.innerHTML=data.map(g=>`
+    <div class="gem-card">
+      <div class="gem-header">
+        <div class="gem-icon" style="background:${g.color}22;color:${g.color}">${g.icon}</div>
+        <div style="flex:1">
+          <div class="gem-name">${g.name} <span style="color:var(--text3);font-size:12px">${g.sym}</span></div>
+          <span class="gem-chain">⛓ ${g.chain}</span>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:4px">AI Confidence Score</div>
+      <div class="gem-score">
+        <div class="score-bar"><div class="score-fill" style="width:${g.score}%"></div></div>
+        <div class="score-val">${g.score}/100</div>
+      </div>
+      <div class="gem-stats">
+        <div class="gem-stat-item"><div class="gem-stat-lbl">Price</div><div class="gem-stat-val">${g.price}</div></div>
+        <div class="gem-stat-item"><div class="gem-stat-lbl">Supply</div><div class="gem-stat-val">${g.supply}</div></div>
+        <div class="gem-stat-item"><div class="gem-stat-lbl">Market Cap</div><div class="gem-stat-val">${g.mcap}</div></div>
+        <div class="gem-stat-item"><div class="gem-stat-lbl">Network</div><div class="gem-stat-val">${g.chain}</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Available on:</div>
+      <div class="gem-exchanges">${g.exchanges.map(e=>`<span class="ex-badge">${e}</span>`).join('')}</div>
+      <div class="gem-btns">
+        <button class="btn-buy" onclick="alert('Opening purchase guide for ${g.name}...')">💰 How to Buy</button>
+        <button class="btn-chart" onclick="alert('Chart coming soon for ${g.sym}!')">📊 View Chart</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// JOBS
+// ============================================================
+function renderJobs(){
+  const el=document.getElementById('jobsList');
+  if(!el)return;
+  el.innerHTML=JOBS_DATA.map(j=>`
+    <div class="job-card">
+      <div class="job-logo" style="background:${j.logoColor}22;color:${j.logoColor};font-size:${j.logo.length>1?'14px':'22px'}">${j.logo}</div>
+      <div>
+        <div class="job-title">${j.title}</div>
+        <div class="job-company">${j.company} · ${j.loc}</div>
+        <div class="job-tags">
+          ${j.remote?'<span class="job-tag tag-remote">🌍 Remote</span>':''}
+          <span class="job-tag tag-crypto">₿ Crypto Pay</span>
+          <span class="job-tag tag-type">${j.type}</span>
+        </div>
+      </div>
+      <div class="job-salary">
+        <div class="salary-amt">${j.salary}</div>
+        <div class="salary-crypto">${j.crypto}</div>
+        <button class="btn-apply" onclick="alert('Redirecting to application for ${j.title}...')">Apply Now</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// NEWS
+// ============================================================
+function renderNews(){
+  const el=document.getElementById('newsGrid');
+  if(!el)return;
+  el.innerHTML=NEWS_DATA.map(n=>`
+    <div class="news-card">
+      <div class="news-img">${n.emoji}</div>
+      <div class="news-body">
+        <div class="news-meta">
+          <span class="news-source">${n.source}</span>
+          <span class="sentiment-badge ${n.sentiment}">${n.sentiment==='bullish'?'📈 Bullish':n.sentiment==='bearish'?'📉 Bearish':'⚖️ Neutral'}</span>
+        </div>
+        <div class="news-title">${n.title}</div>
+        <div class="news-summary">${n.summary}</div>
+        <div class="news-time">🕐 ${n.time}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// LEARN
+// ============================================================
+function renderLearn(){
+  const el=document.getElementById('learnGrid');
+  if(!el)return;
+  el.innerHTML=LEARN_DATA.map(l=>`
+    <div class="learn-card" onclick="showPage('ai')">
+      <div class="learn-icon">${l.icon}</div>
+      <div class="learn-title">${l.title}</div>
+      <div class="learn-desc">${l.desc}</div>
+      <span class="learn-level">${l.level}</span>
+    </div>
+  `).join('');
+  const qg=document.getElementById('quickGuides');
+  if(!qg)return;
+  const guides=[
+    {q:'How do I get started with crypto in Africa?',a:'Start by choosing a regulated exchange like Binance or OKX. Create an account, complete KYC verification, then fund it via mobile money (M-Pesa, MTN Mobile Money) or bank transfer. Begin by buying Bitcoin or Ethereum — the most established assets.'},
+    {q:'What makes a crypto coin a "gem" or low-supply opportunity?',a:'A low-supply coin has a maximum supply under ~500M tokens. Combined with growing demand, this scarcity can drive significant price appreciation. Look for coins with: real utility, active development, growing community, and listings on major exchanges.'},
+    {q:'How do I avoid crypto scams in Africa?',a:'Red flags: guaranteed returns, anonymous teams, no locked liquidity, and pressure to "act now." Always check CoinGecko legitimacy, verify contracts on Etherscan, and never share your seed phrase with anyone. If it sounds too good to be true, it is.'},
+  ];
+  qg.innerHTML=guides.map(g=>`
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--neon2)">Q: ${g.q}</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">${g.a}</div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// SCAMS
+// ============================================================
+function renderScams(){
+  const el=document.getElementById('scamGrid');
+  if(!el)return;
+  el.innerHTML=SCAM_DATA.map(s=>`
+    <div class="scam-card scam-${s.risk.toLowerCase()}">
+      <div class="scam-header">
+        <span style="font-size:12px;color:var(--text3)">Contract: ${s.contract}</span>
+        <span class="scam-badge risk-${s.risk.toLowerCase()}">${s.risk==='HIGH'?'🚨':'⚠️'} ${s.risk} RISK</span>
+      </div>
+      <div class="scam-name">${s.name}</div>
+      <div class="scam-desc">${s.desc}</div>
+      <div class="scam-flags">${s.flags.map(f=>`<span class="scam-flag">⚑ ${f}</span>`).join('')}</div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// AI CHAT & LOCAL SECURE REACTION ENGINE
+// ============================================================
+const chatHistory=[];
+
+// To transition from a mock client-side simulator to a live, secure backend API, 
+// you can replace this URL with a secure Serverless endpoint (e.g. Netlify / Vercel Functions).
+const SECURE_BACKEND_URL = ''; 
+
+async function sendChatMessage(){
+  const input=document.getElementById('chatInput');
+  const userText=input.value.trim();
+  if(!userText)return;
+  
+  // Sanitize input to protect page elements
+  const cleanInput = userText.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  
+  input.value='';
+  addMessage(cleanInput,'user');
+  chatHistory.push({role:'user',content:cleanInput});
+
+  const typing=document.createElement('div');
+  typing.className='typing';
+  typing.id='typingIndicator';
+  typing.innerHTML='<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  document.getElementById('chatMessages').appendChild(typing);
+  scrollChat();
+
+  // If a secure backend service URL is provided, try routing to it
+  if (SECURE_BACKEND_URL) {
+    try{
+      const res=await fetch(SECURE_BACKEND_URL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ messages: chatHistory })
+      });
+      const data=await res.json();
+      const reply=data.reply || 'I processed the request but received no content.';
+      document.getElementById('typingIndicator')?.remove();
+      chatHistory.push({role:'assistant',content:reply});
+      addMessage(reply,'ai');
+      return;
+    } catch(e) {
+      console.warn("Could not reach secure serverless backend. Operating in safe local mode.");
+    }
+  }
+
+  // Safe Local AI Simulation fallback (Protects against CORS and prevents API key exposure)
+  setTimeout(() => {
+    document.getElementById('typingIndicator')?.remove();
+    const reply = getLocalAIResponse(cleanInput.toLowerCase());
+    chatHistory.push({role:'assistant',content:reply});
+    addMessage(reply,'ai');
+  }, 900);
+}
+
+// Locally processed responses tailored to African Crypto topics 
+function getLocalAIResponse(query) {
+  if (query.includes('bitcoin') || query.includes('btc')) {
+    return "🪙 Bitcoin remains the cornerstone of crypto utility in Africa. Because of its security, many users in Nigeria, Kenya, and South Africa use it as an alternative savings option against local fiat inflation. For everyday transfers, layer-2 protocols like the Lightning Network are highly recommended to save on transaction fees. (Always DYOR!)";
+  }
+  if (query.includes('scam') || query.includes('detect') || query.includes('rug')) {
+    return "🚨 Protecting your capital is critical. Always check for these three security checks before purchasing: \n1. Is the liquidity pool locked for at least 12 months on a public locker (e.g. Unicrypt)?\n2. Does the contract allow the deployer to limit selling (honeypot check on Honeypot.is)?\n3. Is the distribution of supply heavily concentrated in a single wallet? Use our Scam Alert tab for an updated list of local reports.";
+  }
+  if (query.includes('nigeria') || query.includes('naira')) {
+    return "🇳🇬 Nigeria leads African adoption. Peer-to-Peer (P2P) trading volume on platforms like Noones and Paxful remains robust. Following recent SEC approvals, registered exchanges are expanding services. Ensure you keep your transactional documentation safe and utilize hardware wallets like Ledger (ordered only from official sites) for larger holdings.";
+  }
+  if (query.includes('kenya') || query.includes('m-pesa') || query.includes('mpesa')) {
+    return "🇰🇪 Kenya's integration of M-Pesa with local non-custodial wallets has simplified entry points. Keep in mind that direct transactions to unknown peer addresses carry risk — always verify the trade counterparty's escrow rating before authorizing M-Pesa releases.";
+  }
+  if (query.includes('low supply') || query.includes('gems') || query.includes('opportunity')) {
+    return "💎 Low-supply coins (usually under 500M tokens) can experience fast valuation moves, but carry severe volatility risk. Some examples monitored by our dashboard include Alephium (ALPH) and Ondo Finance (ONDO). If pursuing these assets, distribute your exposure safely and avoid allocating critical capital.";
+  }
+  if (query.includes('wallet') || query.includes('safe') || query.includes('begin')) {
+    return "🔐 For beginners, software wallets like Trust Wallet, Metamask, or Coinbase Wallet are good choices for small assets. Remember: never screenshot your 12-to-24 word seed phrase or store it in your email draft folders. Keep multiple physically written copies offline.";
+  }
+  if (query.includes('defi')) {
+    return "🌊 Decentralized Finance (DeFi) allows peer-to-peer lending, borrow programs, and swap services without banking intermediaries. While yields look attractive, smart-contract exploits do occur. We recommend sticking to proven, audited protocols like Uniswap or Aave.";
+  }
+  
+  // Generic responsive output
+  return "👋 I'm currently running in secure Local Mode to shield your interactions from public server exposure. I specialize in topics regarding: African adoption hubs (Nigeria/Kenya/Ghana), basic wallet protection, identifying rug pulls, or analyzing low-supply gems. Could you clarify your question on these topics?";
+}
+
+function sendPromptAI(prompt){
+  showPage('ai');
+  document.getElementById('chatInput').value=prompt;
+  setTimeout(sendChatMessage,300);
+}
+
+function addMessage(text,role){
+  const div=document.createElement('div');
+  div.className=`msg msg-${role}`;
+  div.textContent=text; // Safe from DOM XSS injection
+  document.getElementById('chatMessages').appendChild(div);
+  scrollChat();
+}
+
+function scrollChat(){
+  const msgs=document.getElementById('chatMessages');
+  if(msgs) msgs.scrollTop=msgs.scrollHeight;
+}
+
+// ============================================================
+// NEWSLETTER
+// ============================================================
+function subscribeNL(){
+  const em=document.getElementById('nlEmail').value;
+  const msg=document.getElementById('nlMsg');
+  if(!em||!em.includes('@')){
+    msg.style.color='var(--red)';
+    msg.textContent='Please enter a valid email address.';
+    return;
+  }
+  msg.style.color='var(--green)';
+  msg.textContent='✅ You\'re subscribed! Welcome to Africa\'s crypto revolution.';
+  document.getElementById('nlEmail').value='';
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function formatPrice(p){
+  if(p>=1000) return '$'+p.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+  if(p>=1) return '$'+p.toFixed(2);
+  return '$'+p.toFixed(4);
+}
+
+function formatLarge(n){
+  if(n>=1e12) return '$'+(n/1e12).toFixed(2)+'T';
+  if(n>=1e9) return '$'+(n/1e9).toFixed(2)+'B';
+  if(n>=1e6) return '$'+(n/1e6).toFixed(2)+'M';
+  return '$'+n.toLocaleString();
+}
+
+// ============================================================
+// LIVE PRICE SIMULATION (updates every 8 seconds)
+// ============================================================
+function simulateLivePrices(){
+  COINS_DATA.forEach(c=>{
+    const delta=(Math.random()-0.48)*0.006;
+    c.price=c.price*(1+delta);
+    c.change24+=((Math.random()-0.5)*0.1);
+  });
+  // Update ticker
+  const ticks={btc:'tick-btc',eth:'tick-eth',sol:'tick-sol',xrp:'tick-xrp',ada:'tick-ada',bnb:'tick-bnb'};
+  const map={btc:0,eth:1,sol:2,xrp:3,ada:4,bnb:5};
+  Object.keys(ticks).forEach(k=>{
+    const el=document.getElementById(ticks[k]);
+    if(el) el.textContent=formatPrice(COINS_DATA[map[k]].price);
+  });
+  // Re-render if on markets page
+  if(document.getElementById('page-markets').classList.contains('active')) renderMarketTable(COINS_DATA);
+  // Update home grid
+  if(document.getElementById('page-home').classList.contains('active')) renderHomeMarket();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderHomeMarket();
+renderGemsGrid('homeGemsGrid',GEMS_DATA.slice(0,3));
+setInterval(simulateLivePrices,8000);
+</script>
+</body>
+</html>
